@@ -1,0 +1,12 @@
+:root {
+    --mdc-theme-primary: hotpink;
+}
+body {
+    margin: 0;
+}
+main {
+    margin-left: 8px;
+}
+.view {
+    display: none;
+}
