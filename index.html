@@ -17,17 +17,17 @@
     <aside class="mdc-drawer mdc-drawer--modal">
         <div class="mdc-drawer__content">
             <nav class="mdc-list">
-                <a class="mdc-list-item mdc-list-item--activated" href="#home" aria-current="page">
-                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
-                    <span class="mdc-list-item__text">Home</span>
+                <a class="mdc-list-item mdc-list-item--activated" href="#search" aria-current="page">
+                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
+                    <span class="mdc-list-item__text">Search</span>
                 </a>
-                <a class="mdc-list-item" href="#data">
-                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">pets</i>
-                    <span class="mdc-list-item__text">Data</span>
+                <a class="mdc-list-item" href="#list">
+                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">list</i>
+                    <span class="mdc-list-item__text">List</span>
                 </a>
-                <a class="mdc-list-item" href="#about">
-                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">info</i>
-                    <span class="mdc-list-item__text">About</span>
+                <a class="mdc-list-item" href="#chart">
+                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">show_chart</i>
+                    <span class="mdc-list-item__text">Chart</span>
                 </a>
             </nav>
         </div>
@@ -41,22 +41,35 @@
                 <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
                 <span class="mdc-top-app-bar__title">Title</span>
             </section>
-            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Download">file_download</button>
-                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Print this page">print</button>
-                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Bookmark this page">bookmark</button>
-            </section>
         </div>
     </header>
 
 
 
     <main class="mdc-top-app-bar--fixed-adjust">
-        <div id="home" class="view">Home</div>
-        <div id="data" class="view">Data</div>
-        <div id="about" class="view">About</div>
+        <div id="search-view" class="view">
+            <center>
+                <h2 class="mdc-typography--headline2">Please choose a country to get started:</h2>
+                <input list="country-data-list">
+
+                <datalist id="country-data-list"></datalist> <br>
+                Values to chart:
+                <div class="mdc-form-field ">
+                    <div class="mdc-checkbox">
+                        <input type="checkbox" id="confirmed-checkbox" class="mdc-checkbox__native-control" />
+                        <input type="checkbox" id="deaths-checkbox" class="mdc-checkbox__native-control" />
+                        <input type="checkbox" id="recovered-checkbox" class="mdc-checkbox__native-control" />
+                    </div>
+                    <label for="confirmed-checkbox">Confirmed</label>
+                    <label for="deaths-checkbox">Deaths</label>
+                    <label for="recovered-checkbox">Recovered</label>
+                </div>
+            </center>
+        </div>
+        <div id="list-view" class="view">List</div>
+        <div id="chart-view" class="view">Chart</div>
     </main>
-    
+
 
     <script src="./js/script.js"></script>
 </body>
