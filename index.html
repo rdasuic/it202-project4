@@ -17,15 +17,15 @@
     <aside class="mdc-drawer mdc-drawer--modal">
         <div class="mdc-drawer__content">
             <nav class="mdc-list">
-                <a class="mdc-list-item mdc-list-item--activated" href="#search" aria-current="page">
+                <a class="mdc-list-item mdc-list-item--activated" id="search-view-link" href="#search-view" aria-current="page">
                     <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
                     <span class="mdc-list-item__text">Search</span>
                 </a>
-                <a class="mdc-list-item" href="#list">
+                <a class="mdc-list-item" href="#list-view" id="list-view-link">
                     <i class="material-icons mdc-list-item__graphic" aria-hidden="true">list</i>
                     <span class="mdc-list-item__text">List</span>
                 </a>
-                <a class="mdc-list-item" href="#chart">
+                <a class="mdc-list-item" href="#chart-view" id="chart-view-link">
                     <i class="material-icons mdc-list-item__graphic" aria-hidden="true">show_chart</i>
                     <span class="mdc-list-item__text">Chart</span>
                 </a>
@@ -52,18 +52,55 @@
                 <h2 class="mdc-typography--headline2">Please choose a country to get started:</h2>
                 <input list="country-data-list">
 
-                <datalist id="country-data-list"></datalist> <br>
-                Values to chart:
-                <div class="mdc-form-field ">
-                    <div class="mdc-checkbox">
-                        <input type="checkbox" id="confirmed-checkbox" class="mdc-checkbox__native-control" />
-                        <input type="checkbox" id="deaths-checkbox" class="mdc-checkbox__native-control" />
-                        <input type="checkbox" id="recovered-checkbox" class="mdc-checkbox__native-control" />
+                <datalist id="country-data-list"></datalist>
+                <br>
+                <p class="mdc-typography--body1">Values to chart: </p>
+                <div class="mdc-form-field">
+                    <div class="mdc-checkbox" id="confirmed-checkbox">
+                        <input type="checkbox" class="mdc-checkbox__native-control" />
+                        <div class="mdc-checkbox__background">
+                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                            </svg>
+                            <div class="mdc-checkbox__mixedmark"></div>
+                        </div>
+                        <div class="mdc-checkbox__ripple"></div>
                     </div>
                     <label for="confirmed-checkbox">Confirmed</label>
+                </div>
+                <br>
+                <div class="mdc-form-field">
+                    <div class="mdc-checkbox" id="deaths-checkbox">
+                        <input type="checkbox" class="mdc-checkbox__native-control" />
+                        <div class="mdc-checkbox__background">
+                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                            </svg>
+                            <div class="mdc-checkbox__mixedmark"></div>
+                        </div>
+                        <div class="mdc-checkbox__ripple"></div>
+                    </div>
                     <label for="deaths-checkbox">Deaths</label>
+                </div>
+                <br>
+                <div class="mdc-form-field" id="recovered-checkbox">
+                    <div class="mdc-checkbox">
+                        <input type="checkbox" class="mdc-checkbox__native-control" />
+                        <div class="mdc-checkbox__background">
+                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                            </svg>
+                            <div class="mdc-checkbox__mixedmark"></div>
+                        </div>
+                        <div class="mdc-checkbox__ripple"></div>
+                    </div>
                     <label for="recovered-checkbox">Recovered</label>
                 </div>
+            <br>
+            <button class="mdc-button mdc-button--raised" id="view-chart-btn">
+                <span class="mdc-button__ripple"></span>
+                View Chart
+                </button>
             </center>
         </div>
         <div id="list-view" class="view">List</div>
