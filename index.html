@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width">
     <title>repl.it</title>
     <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./css/style.css">
 
@@ -122,10 +121,16 @@
             </center>
         </div>
         <div id="list-view" class="view">List</div>
-        <div id="chart-view" class="view">Chart</div>
+        <div id="chart-view" class="view">
+            <center>
+                <canvas id="corona-chart"></canvas>
+
+            </center>
+        </div>
     </main>
-
-
+    
+    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script src="./js/script.js"></script>
 </body>
 

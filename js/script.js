@@ -13,6 +13,7 @@ const recoveredCheckboxEl = document.querySelector('#recovered-checkbox');
 const countryInputEl = document.querySelector('#country-input');
 const errorDialogEl = document.querySelector('#mdc-dialog-chart-error');
 const errorDialog = new mdc.dialog.MDCDialog(errorDialogEl);
+const coronaChart = document.querySelector('#corona-chart').getContext('2d');
 const viewChartBtnEl = document.querySelector('#view-chart-btn');
 mdc.ripple.MDCRipple.attachTo(viewChartBtnEl);
 const confirmedCheckbox = new mdc.checkbox.MDCCheckbox(confirmedCheckboxEl);
@@ -39,6 +40,23 @@ viewChartBtnEl.addEventListener('click', () => {
     }
     else {
         const countryData = allData[countryInputEl.value];
+        const chartLabels = countryData.map((data) => data.date); // grabs all the dates from each obj
+        const chartData = countryData.map((data) => data.confirmed);
+        const chartConfig = {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Confirmed',
+                    data: chartData,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        }
+        new Chart(coronaChart, chartConfig);
         searchView.style.display = "none";
         chartView.style.display = "block";    
     }
