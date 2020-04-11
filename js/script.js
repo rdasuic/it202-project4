@@ -10,6 +10,9 @@ const chartViewNavBarLinkEl = document.querySelector('#chart-view-link');
 const confirmedCheckboxEl = document.querySelector('#confirmed-checkbox');
 const deathsCheckboxEl = document.querySelector('#deaths-checkbox');
 const recoveredCheckboxEl = document.querySelector('#recovered-checkbox');
+const countryInputEl = document.querySelector('#country-input');
+const errorDialogEl = document.querySelector('#mdc-dialog-chart-error');
+const errorDialog = new mdc.dialog.MDCDialog(errorDialogEl);
 const viewChartBtnEl = document.querySelector('#view-chart-btn');
 mdc.ripple.MDCRipple.attachTo(viewChartBtnEl);
 const confirmedCheckbox = new mdc.checkbox.MDCCheckbox(confirmedCheckboxEl);
@@ -31,13 +34,13 @@ fetch("https://pomber.github.io/covid19/timeseries.json")
 });
 
 viewChartBtnEl.addEventListener('click', () => {
-    searchView.style.display = "none";
-    chartView.style.display = "block";
-//     set the active tab in the nav drawer
-//     chartViewNavBarLinkEl.classList.add('mdc-list-item--activated');
-//     chartViewNavBarLinkEl.setAttribute('aria-current', 'page');
-//     searchViewNavBarLinkEl.classList.remove('mdc-list-item--activated');
-//     searchViewNavBarLinkEl.removeAttribute('aria-current');
+    if(countryInputEl.value == '' || (!confirmedCheckbox.checked && !deathsCheckbox.checked && !recoveredCheckbox.checked)) {
+        errorDialog.open();
+    }
+    else {
+        searchView.style.display = "none";
+        chartView.style.display = "block";    
+    }
 });
 
 const hideViews = () => {
