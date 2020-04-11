@@ -41,21 +41,43 @@ viewChartBtnEl.addEventListener('click', () => {
     else {
         const countryData = allData[countryInputEl.value];
         const chartLabels = countryData.map((data) => data.date); // grabs all the dates from each obj
-        const chartData = countryData.map((data) => data.confirmed);
+        const chartDataConfirmed = countryData.map((data) => data.confirmed);
+        const chartDataRecovered = countryData.map((data) => data.recovered);
+        const chartDataDeaths = countryData.map((data) => data.deaths);
+        const chartConfirmedDataset = {
+                    label: 'Confirmed',
+                    data: chartDataConfirmed,
+                    fill: false,
+                    borderColor: 'orange',
+                    pointBackgroundColor: 'orange'
+                }
+        const chartRecoveredDataset = {
+                    label: 'Recovered',
+                    data: chartDataRecovered,
+                    fill: false,
+                    borderColor: 'green',
+                    pointBackgroundColor: 'green'
+                }
+        const chartDeathsDataset = {
+                    label: 'Deaths',
+                    data: chartDataDeaths,
+                    fill: false,
+                    borderColor: 'red',
+                    pointBackgroundColor: 'red'
+                }
         const chartConfig = {
             type: 'line',
             data: {
                 labels: chartLabels,
-                datasets: [{
-                    label: 'Confirmed',
-                    data: chartData,
-                    fill: false
-                }]
+                datasets: []
             },
             options: {
                 responsive: true
             }
         }
+        if(confirmedCheckbox.checked) chartConfig.data.datasets.push(chartConfirmedDataset);
+        if (recoveredCheckbox.checked) chartConfig.data.datasets.push(chartRecoveredDataset);
+        if (deathsCheckbox.checked) chartConfig.data.datasets.push(chartDeathsDataset);
         new Chart(coronaChart, chartConfig);
         searchView.style.display = "none";
         chartView.style.display = "block";    
