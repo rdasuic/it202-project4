@@ -38,6 +38,7 @@ viewChartBtnEl.addEventListener('click', () => {
         errorDialog.open();
     }
     else {
+        const countryData = allData[countryInputEl.value];
         searchView.style.display = "none";
         chartView.style.display = "block";    
     }
