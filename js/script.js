@@ -12,8 +12,11 @@ const errorDialogEl = document.querySelector('#mdc-dialog-chart-error');
 const errorDialog = new mdc.dialog.MDCDialog(errorDialogEl);
 const coronaChartCanvas = document.querySelector('#corona-chart').getContext('2d');
 const viewChartBtnEl = document.querySelector('#view-chart-btn');
+const addCountryBtnEl = document.querySelector('#add-country-btn');
 const noDataErrEls = document.querySelectorAll('.no-data-error');
+const selectedCountriesListEl = document.querySelector('.selected-countries-list');
 mdc.ripple.MDCRipple.attachTo(viewChartBtnEl);
+mdc.ripple.MDCRipple.attachTo(addCountryBtnEl);
 const confirmedCheckbox = new mdc.checkbox.MDCCheckbox(confirmedCheckboxEl);
 const recoveredCheckbox = new mdc.checkbox.MDCCheckbox(recoveredCheckboxEl);
 const deathsCheckbox = new mdc.checkbox.MDCCheckbox(deathsCheckboxEl);
@@ -84,6 +87,17 @@ viewChartBtnEl.addEventListener('click', () => {
     }
 });
 
+addCountryBtnEl.addEventListener('click', () =>{
+    if(countryInputEl.value == '' || (!confirmedCheckbox.checked && !deathsCheckbox.checked && !recoveredCheckbox.checked)) {
+        errorDialog.open();
+    }
+    else {
+        showCountriesDataTable();
+        addCountryToList();
+    }
+    
+})
+
 const hideViews = () => {
     document.querySelectorAll("div.view").forEach((item) => {
         item.style.display = "none";
@@ -95,7 +109,7 @@ const hideNoDataErrs = () => {
     })
 }
 const generateDataTable = (countryData) => {
-    const dataTableBody = document.querySelector('.mdc-data-table__content');
+    const dataTableBody = document.querySelector('#cases-list-content');
     dataTableBody.textContent = '';
     countryData.map((dayStats) => {
         let row = document.createElement('tr');
@@ -118,6 +132,32 @@ const generateDataTable = (countryData) => {
         row.appendChild(recoveredCell);
         dataTableBody.appendChild(row);
     });
+}
+const showCountriesDataTable = () => {
+    selectedCountriesListEl.style.display = "block";
+}
+const addCountryToList = () => {
+    const selectedCountriesListTableBody = document.querySelector('#country-list-content');
+    const selectedCountry = countryInputEl.value;
+    let row = document.createElement('tr');
+    row.classList.add('mdc-data-table__row');
+    let countryNameCell = document.createElement('td');
+    countryNameCell.classList.add('mdc-data-table__cell');
+    let confirmedCell = document.createElement('td');
+    confirmedCell.classList.add('mdc-data-table__cell');
+    let deathsCell = document.createElement('td');
+    deathsCell.classList.add('mdc-data-table__cell');
+    let recoveredCell = document.createElement('td');
+    recoveredCell.classList.add('mdc-data-table__cell');
+    countryNameCell.textContent = selectedCountry;
+    confirmedCell.textContent = "?";
+    deathsCell.textContent = "?";
+    recoveredCell.textContent = "?";
+    row.appendChild(countryNameCell);
+    row.appendChild(confirmedCell);
+    row.appendChild(deathsCell);
+    row.appendChild(recoveredCell);
+    selectedCountriesListTableBody.appendChild(row);
 }
 topBarLinks.forEach((item) => {
     item.addEventListener('click', () => {

@@ -48,58 +48,84 @@
     <main class="mdc-top-app-bar--fixed-adjust">
         <div id="search-view" class="view">
             <center>
-                <h2 class="mdc-typography--headline2">Please choose a country to get started:</h2>
-                <input list="country-data-list" id="country-input">
+                <div>
 
-                <datalist id="country-data-list"></datalist>
-                <br>
-                <p class="mdc-typography--body1">Values to chart:</p>
-                <div class="mdc-form-field">
-                    <div class="mdc-checkbox" id="confirmed-checkbox">
-                        <input type="checkbox" id="confirmed-checkbox-el" class="mdc-checkbox__native-control" />
-                        <div class="mdc-checkbox__background">
-                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
-                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
-                            </svg>
-                            <div class="mdc-checkbox__mixedmark"></div>
+                    <h2 class="mdc-typography--headline2">Please choose a country to get started:</h2>
+                    <input list="country-data-list" id="country-input">
+
+                    <datalist id="country-data-list"></datalist>
+                    <br>
+                    <p class="mdc-typography--body1">Values to chart:</p>
+                    <div class="mdc-form-field">
+                        <div class="mdc-checkbox" id="confirmed-checkbox">
+                            <input type="checkbox" id="confirmed-checkbox-el" class="mdc-checkbox__native-control" />
+                            <div class="mdc-checkbox__background">
+                                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                    <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                </svg>
+                                <div class="mdc-checkbox__mixedmark"></div>
+                            </div>
+                            <div class="mdc-checkbox__ripple"></div>
                         </div>
-                        <div class="mdc-checkbox__ripple"></div>
+                        <label for="confirmed-checkbox-el">Confirmed</label>
                     </div>
-                    <label for="confirmed-checkbox-el">Confirmed</label>
-                </div>
-                <br>
-                <div class="mdc-form-field">
-                    <div class="mdc-checkbox" id="deaths-checkbox">
-                        <input type="checkbox" id="deaths-checkbox-el" class="mdc-checkbox__native-control" />
-                        <div class="mdc-checkbox__background">
-                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
-                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
-                            </svg>
-                            <div class="mdc-checkbox__mixedmark"></div>
+                    <br>
+                    <div class="mdc-form-field">
+                        <div class="mdc-checkbox" id="deaths-checkbox">
+                            <input type="checkbox" id="deaths-checkbox-el" class="mdc-checkbox__native-control" />
+                            <div class="mdc-checkbox__background">
+                                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                    <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                </svg>
+                                <div class="mdc-checkbox__mixedmark"></div>
+                            </div>
+                            <div class="mdc-checkbox__ripple"></div>
                         </div>
-                        <div class="mdc-checkbox__ripple"></div>
+                        <label for="deaths-checkbox-el">Deaths</label>
                     </div>
-                    <label for="deaths-checkbox-el">Deaths</label>
-                </div>
-                <br>
-                <div class="mdc-form-field" id="recovered-checkbox">
-                    <div class="mdc-checkbox">
-                        <input type="checkbox" id="recovered-checkbox-el" class="mdc-checkbox__native-control" />
-                        <div class="mdc-checkbox__background">
-                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
-                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
-                            </svg>
-                            <div class="mdc-checkbox__mixedmark"></div>
+                    <br>
+                    <div class="mdc-form-field" id="recovered-checkbox">
+                        <div class="mdc-checkbox">
+                            <input type="checkbox" id="recovered-checkbox-el" class="mdc-checkbox__native-control" />
+                            <div class="mdc-checkbox__background">
+                                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                    <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                </svg>
+                                <div class="mdc-checkbox__mixedmark"></div>
+                            </div>
+                            <div class="mdc-checkbox__ripple"></div>
                         </div>
-                        <div class="mdc-checkbox__ripple"></div>
+                        <label for="recovered-checkbox-el">Recovered</label>
                     </div>
-                    <label for="recovered-checkbox-el">Recovered</label>
+                    <br>
+                    <button class="mdc-button mdc-button--raised" id="add-country-btn">
+                        <span class="mdc-button__ripple"></span>
+                        Add country to plot
+                    </button>
+                    <br>
+                    <button class="mdc-button mdc-button--raised" id="view-chart-btn">
+                        <span class="mdc-button__ripple"></span>
+                        View Chart
+                    </button>
                 </div>
-                <br>
-                <button class="mdc-button mdc-button--raised" id="view-chart-btn">
-                    <span class="mdc-button__ripple"></span>
-                    View Chart
-                </button>
+                <div class="selected-countries-list">
+                    <h3 class="mdc-typography--headline3">Selected Countries:</h3>
+                    <div class="mdc-data-table" id="selected-countries-table">
+                    <table class="mdc-data-table__table">
+                        <thead>
+                            <tr class="mdc-data-table__header-row">
+                                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Country</th>
+                                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Plot confirmed?</th>
+                                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Plot deaths?</th>
+                                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Plot recovered?</th>
+                            </tr>
+                        </thead>
+                        <tbody class="mdc-data-table__content" id="country-list-content">
+
+                        </tbody>
+                    </table>
+                </div>
+                </div>
             </center>
         </div>
         <div id="list-view" class="view">
@@ -117,8 +143,8 @@
                                 <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Recovered</th>
                             </tr>
                         </thead>
-                        <tbody class="mdc-data-table__content">
-                            
+                        <tbody class="mdc-data-table__content" id="cases-list-content">
+
                         </tbody>
                     </table>
                 </div>
