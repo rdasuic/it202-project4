@@ -38,6 +38,7 @@ viewChartBtnEl.addEventListener('click', () => {
     }
     else {
         const countryData = allData[countryInputEl.value];
+        generateDataTable(countryData);
         const chartLabels = countryData.map((data) => data.date); // grabs all the dates from each obj
         const chartDataConfirmed = countryData.map((data) => data.confirmed);
         const chartDataRecovered = countryData.map((data) => data.recovered);
@@ -93,9 +94,31 @@ const hideNoDataErrs = () => {
         el.style.display = 'none';
     })
 }
-
-
-
+const generateDataTable = (countryData) => {
+    const dataTableBody = document.querySelector('.mdc-data-table__content');
+    dataTableBody.textContent = '';
+    countryData.map((dayStats) => {
+        let row = document.createElement('tr');
+        row.classList.add('mdc-data-table__row');
+        let dateCell = document.createElement('td');
+        dateCell.classList.add('mdc-data-table__cell');
+        let confirmedCell = document.createElement('td');
+        confirmedCell.classList.add('mdc-data-table__cell');
+        let deathsCell = document.createElement('td');
+        deathsCell.classList.add('mdc-data-table__cell');
+        let recoveredCell = document.createElement('td');
+        recoveredCell.classList.add('mdc-data-table__cell');
+        dateCell.textContent = dayStats.date;
+        confirmedCell.textContent = dayStats.confirmed;
+        deathsCell.textContent = dayStats.deaths;
+        recoveredCell.textContent = dayStats.recovered;
+        row.appendChild(dateCell);
+        row.appendChild(confirmedCell);
+        row.appendChild(deathsCell);
+        row.appendChild(recoveredCell);
+        dataTableBody.appendChild(row);
+    });
+}
 topBarLinks.forEach((item) => {
     item.addEventListener('click', () => {
         hideViews();

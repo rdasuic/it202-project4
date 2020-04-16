@@ -12,7 +12,7 @@
 </head>
 
 <body>
-     <!-- Dialogs: Chart error -->
+    <!-- Dialogs: Chart error -->
     <div class="mdc-dialog" id="mdc-dialog-chart-error">
         <div class="mdc-dialog__container">
             <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
@@ -38,13 +38,13 @@
                 <span class="mdc-top-app-bar__title">Corona Charts</span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-              <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search" href="#search-view">search</button>
-              <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="List" href="#list-view">list</button>
-              <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Chart" href="#chart-view">show_chart</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search" href="#search-view">search</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="List" href="#list-view">list</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Chart" href="#chart-view">show_chart</button>
             </section>
         </div>
     </header>
-    
+
     <main class="mdc-top-app-bar--fixed-adjust">
         <div id="search-view" class="view">
             <center>
@@ -95,10 +95,10 @@
                     </div>
                     <label for="recovered-checkbox-el">Recovered</label>
                 </div>
-            <br>
-            <button class="mdc-button mdc-button--raised" id="view-chart-btn">
-                <span class="mdc-button__ripple"></span>
-                View Chart
+                <br>
+                <button class="mdc-button mdc-button--raised" id="view-chart-btn">
+                    <span class="mdc-button__ripple"></span>
+                    View Chart
                 </button>
             </center>
         </div>
@@ -106,6 +106,21 @@
             <center>
                 <div class="no-data-error">
                     <h1 class="mdc-typography--headline1">Please pick some data to display from the search page.</h1>
+                </div>
+                <div class="mdc-data-table" id="data-table">
+                    <table class="mdc-data-table__table">
+                        <thead>
+                            <tr class="mdc-data-table__header-row">
+                                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Date</th>
+                                <th class="mdc-data-table__header-cell mdc-data-table__header-cell--numeric" role="columnheader" scope="col">Confirmed</th>
+                                <th class="mdc-data-table__header-cell mdc-data-table__header-cell--numeric" role="columnheader" scope="col">Deaths</th>
+                                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Recovered</th>
+                            </tr>
+                        </thead>
+                        <tbody class="mdc-data-table__content">
+                            
+                        </tbody>
+                    </table>
                 </div>
             </center>
         </div>
@@ -118,7 +133,7 @@
             </center>
         </div>
     </main>
-    
+
     <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script src="./js/script.js"></script>
