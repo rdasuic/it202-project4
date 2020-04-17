@@ -12,6 +12,8 @@ const viewChartBtnEl = document.querySelector('#view-chart-btn');
 const addCountryBtnEl = document.querySelector('#add-country-btn');
 const noDataErrEls = document.querySelectorAll('.no-data-error');
 const selectedCountriesListEl = document.querySelector('.selected-countries-list');
+const selectedCountriesTableEl = document.querySelector('#selected-countries-table');
+const selectedCountriesTable = new mdc.dataTable.MDCDataTable(selectedCountriesTableEl);
 mdc.ripple.MDCRipple.attachTo(viewChartBtnEl);
 mdc.ripple.MDCRipple.attachTo(addCountryBtnEl);
 let allData = {}; // global var for all of the data loaded from the api
