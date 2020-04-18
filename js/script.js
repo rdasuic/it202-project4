@@ -9,12 +9,14 @@ const errorDialogEl = document.querySelector('#mdc-dialog-chart-error');
 const errorDialog = new mdc.dialog.MDCDialog(errorDialogEl);
 const coronaChartCanvas = document.querySelector('#corona-chart').getContext('2d');
 const viewChartBtnEl = document.querySelector('#view-chart-btn');
+const viewDataTableBtnEl = document.querySelector('#view-data-table-btn');
 const addCountryBtnEl = document.querySelector('#add-country-btn');
 const noDataErrEls = document.querySelectorAll('.no-data-error');
 const selectedCountriesListEl = document.querySelector('.selected-countries-list');
 const selectedCountriesTableEl = document.querySelector('#selected-countries-table');
 const selectedCountriesTable = new mdc.dataTable.MDCDataTable(selectedCountriesTableEl);
 mdc.ripple.MDCRipple.attachTo(viewChartBtnEl);
+mdc.ripple.MDCRipple.attachTo(viewDataTableBtnEl);
 mdc.ripple.MDCRipple.attachTo(addCountryBtnEl);
 let allData = {}; // global var for all of the data loaded from the api
 // load the data from the api
@@ -32,47 +34,48 @@ fetch("https://pomber.github.io/covid19/timeseries.json")
 });
 
 viewChartBtnEl.addEventListener('click', () => {
-    const countryData = allData[countryInputEl.value];
-    generateDataTable(countryData);
-    const chartLabels = countryData.map((data) => data.date); // grabs all the dates from each obj
-    const chartDataConfirmed = countryData.map((data) => data.confirmed);
-    const chartDataRecovered = countryData.map((data) => data.recovered);
-    const chartDataDeaths = countryData.map((data) => data.deaths);
-    const chartConfirmedDataset = {
-                label: 'Confirmed',
-                data: chartDataConfirmed,
-                fill: false,
-                borderColor: 'orange',
-                pointBackgroundColor: 'orange'
-            }
-    const chartRecoveredDataset = {
-                label: 'Recovered',
-                data: chartDataRecovered,
-                fill: false,
-                borderColor: 'green',
-                pointBackgroundColor: 'green'
-            }
-    const chartDeathsDataset = {
-                label: 'Deaths',
-                data: chartDataDeaths,
-                fill: false,
-                borderColor: 'red',
-                pointBackgroundColor: 'red'
-            }
-    const chartConfig = {
-        type: 'line',
-        data: {
-            labels: chartLabels,
-            datasets: []
-        },
-        options: {
-            responsive: true
-        }
-    }
-    new Chart(coronaChartCanvas, chartConfig);
-    hideNoDataErrs();
-    searchView.style.display = "none";
-    chartView.style.display = "block";    
+    const segmentedData = getOptionsFromSelectedCountryList();
+//     const countryData = allData[countryInputEl.value];
+//     generateDataTable(countryData);
+//     const chartLabels = countryData.map((data) => data.date); // grabs all the dates from each obj
+//     const chartDataConfirmed = countryData.map((data) => data.confirmed);
+//     const chartDataRecovered = countryData.map((data) => data.recovered);
+//     const chartDataDeaths = countryData.map((data) => data.deaths);
+//     const chartConfirmedDataset = {
+//                 label: 'Confirmed',
+//                 data: chartDataConfirmed,
+//                 fill: false,
+//                 borderColor: 'orange',
+//                 pointBackgroundColor: 'orange'
+//             }
+//     const chartRecoveredDataset = {
+//                 label: 'Recovered',
+//                 data: chartDataRecovered,
+//                 fill: false,
+//                 borderColor: 'green',
+//                 pointBackgroundColor: 'green'
+//             }
+//     const chartDeathsDataset = {
+//                 label: 'Deaths',
+//                 data: chartDataDeaths,
+//                 fill: false,
+//                 borderColor: 'red',
+//                 pointBackgroundColor: 'red'
+//             }
+//     const chartConfig = {
+//         type: 'line',
+//         data: {
+//             labels: chartLabels,
+//             datasets: []
+//         },
+//         options: {
+//             responsive: true
+//         }
+//     }
+//     new Chart(coronaChartCanvas, chartConfig);
+//     hideNoDataErrs();
+//     searchView.style.display = "none";
+//     chartView.style.display = "block";    
     
 });
 
@@ -132,20 +135,37 @@ const getOptionsFromSelectedCountryList = () => {
         const recoveredCheckboxStatus = countryRow.querySelector('#recovered-radio').checked;
         switch(true) {
             case confirmedCheckboxStatus:
-                countryOptions[currentCountryName] = "Confirmed";
+                countryOptions[currentCountryName] = "confirmed";
                 break;
             case deathsCheckboxStatus:
-                countryOptions[currentCountryName] = "Deaths";
+                countryOptions[currentCountryName] = "deaths";
                 break;
             case recoveredCheckboxStatus:
-                countryOptions[currentCountryName] = "Recovered";
+                countryOptions[currentCountryName] = "recovered";
                 break;
             default:
                 break;
         }
     });
     console.log(countryOptions);
-    return countryOptions;
+    segmentedData = segmentDataBasedOnOptions(countryOptions);
+    console.log(segmentedData);
+    return segmentedData;
+}
+const segmentDataBasedOnOptions = (countryOptions) => {
+    const countryNames = Object.keys(countryOptions);
+    const segmentedArray = countryNames.map((country) => {
+        let value = countryOptions[country];
+        return {
+                [country]: allData[country].map(e => {
+                return {
+                            "date": e.date,
+                             [value]: e[value]
+                        }
+                })
+            };
+        });
+    return segmentedArray;
 }
 const showCountriesDataTable = () => {
     selectedCountriesListEl.style.display = "block";
