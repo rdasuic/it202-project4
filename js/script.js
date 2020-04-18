@@ -78,6 +78,11 @@ viewChartBtnEl.addEventListener('click', () => {
 //     chartView.style.display = "block";    
     
 });
+viewDataTableBtnEl.addEventListener('click', () => {
+    const segmentedData = getOptionsFromSelectedCountryList();
+    generateDataTable(segmentedData);
+    hideNoDataErrs();
+});
 
 addCountryBtnEl.addEventListener('click', () =>{
     if(countryInputEl.value == '') {
@@ -101,28 +106,42 @@ const hideNoDataErrs = () => {
     })
 }
 const generateDataTable = (countryData) => {
+    const dataTable = document.querySelector('#data-table');
     const dataTableBody = document.querySelector('#cases-list-content');
+    const dataTableHeader = document.querySelector("#data-table > table > thead")
     dataTableBody.textContent = '';
-    countryData.map((dayStats) => {
-        let row = document.createElement('tr');
-        row.classList.add('mdc-data-table__row');
-        let dateCell = document.createElement('td');
-        dateCell.classList.add('mdc-data-table__cell');
-        let confirmedCell = document.createElement('td');
-        confirmedCell.classList.add('mdc-data-table__cell');
-        let deathsCell = document.createElement('td');
-        deathsCell.classList.add('mdc-data-table__cell');
-        let recoveredCell = document.createElement('td');
-        recoveredCell.classList.add('mdc-data-table__cell');
-        dateCell.textContent = dayStats.date;
-        confirmedCell.textContent = dayStats.confirmed;
-        deathsCell.textContent = dayStats.deaths;
-        recoveredCell.textContent = dayStats.recovered;
-        row.appendChild(dateCell);
-        row.appendChild(confirmedCell);
-        row.appendChild(deathsCell);
-        row.appendChild(recoveredCell);
-        dataTableBody.appendChild(row);
+    dataTableHeader.textContent = '';
+    const thDateEl = document.createElement('th');
+    thDateEl.classList.add('mdc-data-table__header-cell', 'mdc-data-table__header-cell--numeric')
+    thDateEl.textContent = "Date"
+    dataTableHeader.appendChild(thDateEl);
+    countryData.map((countryDataPoint) => {
+        const thEl = document.createElement('th');
+        thEl.classList.add('mdc-data-table__header-cell', 'mdc-data-table__header-cell--numeric')
+        thEl.textContent = `${countryDataPoint.country}(${countryDataPoint.valueToPlot})`
+        dataTableHeader.appendChild(thEl);
+        (countryDataPoint.data).map((dataPoint) => {
+            let dateCell = document.createElement('td');
+            dateCell.classList.add('mdc-data-table__cell');
+            dateCell.textContent = dataPoint.date;
+            let dataCell = document.createElement('td');
+            dataCell.classList.add('mdc-data-table__cell');
+            dataCell.textContent = dataPoint.data;
+            let row;
+            // if the row for the given date already exists, append the data to that row
+            if(document.querySelector(`.data-${dataPoint.date}`)) {
+                row = document.querySelector(`.data-${dataPoint.date}`);
+                row.appendChild(dataCell);
+            }
+            // if a row with the date doesn't exist, create it
+            else {
+                row = document.createElement('tr');
+                row.classList.add('mdc-data-table__row', `data-${dataPoint.date}`);
+                row.appendChild(dateCell);
+                row.appendChild(dataCell);
+            }
+            dataTableBody.appendChild(row);
+        });
     });
 }
 const getOptionsFromSelectedCountryList = () => {
@@ -157,10 +176,12 @@ const segmentDataBasedOnOptions = (countryOptions) => {
     const segmentedArray = countryNames.map((country) => {
         let value = countryOptions[country];
         return {
-                [country]: allData[country].map(e => {
+                country: country,
+                valueToPlot: value,
+                data: allData[country].map(e => {
                 return {
                             "date": e.date,
-                             [value]: e[value]
+                            "data": e[value]
                         }
                 })
             };
