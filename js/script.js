@@ -122,6 +122,31 @@ const generateDataTable = (countryData) => {
         dataTableBody.appendChild(row);
     });
 }
+const getOptionsFromSelectedCountryList = () => {
+    const rows = selectedCountriesTable.getRows();
+    const countryOptions = {};
+    rows.map((countryRow) => {
+        const currentCountryName = countryRow.querySelector('td').textContent;
+        const confirmedCheckboxStatus = countryRow.querySelector('#confirmed-radio').checked;
+        const deathsCheckboxStatus = countryRow.querySelector('#deaths-radio').checked;
+        const recoveredCheckboxStatus = countryRow.querySelector('#recovered-radio').checked;
+        switch(true) {
+            case confirmedCheckboxStatus:
+                countryOptions[currentCountryName] = "Confirmed";
+                break;
+            case deathsCheckboxStatus:
+                countryOptions[currentCountryName] = "Deaths";
+                break;
+            case recoveredCheckboxStatus:
+                countryOptions[currentCountryName] = "Recovered";
+                break;
+            default:
+                break;
+        }
+    });
+    console.log(countryOptions);
+    return countryOptions;
+}
 const showCountriesDataTable = () => {
     selectedCountriesListEl.style.display = "block";
 }
@@ -227,6 +252,7 @@ const addCountryToList = () => {
     recoveredCell.appendChild(recoveredRadioDiv);
     selectedCountriesListTableBody.appendChild(row);
     
+    getOptionsFromSelectedCountryList();
 }
       
 topBarLinks.forEach((item) => {
