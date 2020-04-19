@@ -46,8 +46,8 @@ viewDataTableBtnEl.addEventListener('click', () => {
     generateDataTable(segmentedData);
     generateChart(segmentedData);
     hideNoDataErrs();
-    searchView.style.display = "block";
-    chartView.style.display = "none";
+    searchView.style.display = "none";
+    listView.style.display = "block";
 });
 
 addCountryBtnEl.addEventListener('click', () =>{
