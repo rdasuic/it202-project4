@@ -35,53 +35,19 @@ fetch("https://pomber.github.io/covid19/timeseries.json")
 
 viewChartBtnEl.addEventListener('click', () => {
     const segmentedData = getOptionsFromSelectedCountryList();
-//     const countryData = allData[countryInputEl.value];
-//     generateDataTable(countryData);
-//     const chartLabels = countryData.map((data) => data.date); // grabs all the dates from each obj
-//     const chartDataConfirmed = countryData.map((data) => data.confirmed);
-//     const chartDataRecovered = countryData.map((data) => data.recovered);
-//     const chartDataDeaths = countryData.map((data) => data.deaths);
-//     const chartConfirmedDataset = {
-//                 label: 'Confirmed',
-//                 data: chartDataConfirmed,
-//                 fill: false,
-//                 borderColor: 'orange',
-//                 pointBackgroundColor: 'orange'
-//             }
-//     const chartRecoveredDataset = {
-//                 label: 'Recovered',
-//                 data: chartDataRecovered,
-//                 fill: false,
-//                 borderColor: 'green',
-//                 pointBackgroundColor: 'green'
-//             }
-//     const chartDeathsDataset = {
-//                 label: 'Deaths',
-//                 data: chartDataDeaths,
-//                 fill: false,
-//                 borderColor: 'red',
-//                 pointBackgroundColor: 'red'
-//             }
-//     const chartConfig = {
-//         type: 'line',
-//         data: {
-//             labels: chartLabels,
-//             datasets: []
-//         },
-//         options: {
-//             responsive: true
-//         }
-//     }
-//     new Chart(coronaChartCanvas, chartConfig);
-//     hideNoDataErrs();
-//     searchView.style.display = "none";
-//     chartView.style.display = "block";    
-    
+    generateChart(segmentedData);
+    generateDataTable(segmentedData);
+    hideNoDataErrs();
+    searchView.style.display = "none";
+    chartView.style.display = "block";
 });
 viewDataTableBtnEl.addEventListener('click', () => {
     const segmentedData = getOptionsFromSelectedCountryList();
     generateDataTable(segmentedData);
+    generateChart(segmentedData);
     hideNoDataErrs();
+    searchView.style.display = "block";
+    chartView.style.display = "none";
 });
 
 addCountryBtnEl.addEventListener('click', () =>{
@@ -90,6 +56,8 @@ addCountryBtnEl.addEventListener('click', () =>{
     }
     else {
         showCountriesDataTable();
+        // remove the country from the datalist so the use can't readd it
+        document.querySelector(`datalist > option[value=${countryInputEl.value}]`).remove()
         addCountryToList();
     }
     
@@ -104,6 +72,31 @@ const hideNoDataErrs = () => {
     noDataErrEls.forEach((el) => {
         el.style.display = 'none';
     })
+}
+const generateChart = (countryData) => {
+    const chartLabels = countryData[0].data.map((data) => data.date); // grabs all the dates from each obj
+    const chartConfig = {
+        type: 'line',
+        data: {
+            labels: chartLabels,
+            datasets: []
+        },
+        options: {
+            responsive: true
+        }
+    }
+    countryData.map((countryDataPoint) => {
+        const randColor = '#'+Math.floor(Math.random()*16777215).toString(16); //generates a random color!
+        const countryDataset = {
+            label: `${countryDataPoint.country}(${countryDataPoint.valueToPlot})`,
+            data: (countryDataPoint.data).map((e) => e.data), // gets the datapoints only, leaves out the dates
+            fill: false, 
+            borderColor: randColor,
+            pointBackgroundColor: randColor
+        }
+        chartConfig.data.datasets.push(countryDataset);
+    });
+    new Chart(coronaChartCanvas, chartConfig);
 }
 const generateDataTable = (countryData) => {
     const dataTable = document.querySelector('#data-table');
@@ -166,9 +159,7 @@ const getOptionsFromSelectedCountryList = () => {
                 break;
         }
     });
-    console.log(countryOptions);
     segmentedData = segmentDataBasedOnOptions(countryOptions);
-    console.log(segmentedData);
     return segmentedData;
 }
 const segmentDataBasedOnOptions = (countryOptions) => {
