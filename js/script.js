@@ -10,6 +10,7 @@ const errorDialog = new mdc.dialog.MDCDialog(errorDialogEl);
 const coronaChartCanvas = document.querySelector('#corona-chart').getContext('2d');
 const viewChartBtnEl = document.querySelector('#view-chart-btn');
 const viewDataTableBtnEl = document.querySelector('#view-data-table-btn');
+const chartDataTableBtnsEl = document.querySelector('.data-view-opts-btns');
 const addCountryBtnEl = document.querySelector('#add-country-btn');
 const noDataErrEls = document.querySelectorAll('.no-data-error');
 const selectedCountriesListEl = document.querySelector('.selected-countries-list');
@@ -18,6 +19,7 @@ const selectedCountriesTable = new mdc.dataTable.MDCDataTable(selectedCountriesT
 mdc.ripple.MDCRipple.attachTo(viewChartBtnEl);
 mdc.ripple.MDCRipple.attachTo(viewDataTableBtnEl);
 mdc.ripple.MDCRipple.attachTo(addCountryBtnEl);
+
 let allData = {}; // global var for all of the data loaded from the api
 // load the data from the api
 fetch("https://pomber.github.io/covid19/timeseries.json")
@@ -55,12 +57,13 @@ addCountryBtnEl.addEventListener('click', () =>{
         errorDialog.open();
     }
     else {
+        // show the chart and data table btns
+        chartDataTableBtnsEl.style.display = 'block';
         showCountriesDataTable();
         // remove the country from the datalist so the use can't readd it
         document.querySelector(`datalist > option[value=${countryInputEl.value}]`).remove()
         addCountryToList();
     }
-    
 })
 
 const hideViews = () => {
@@ -85,6 +88,7 @@ const generateChart = (countryData) => {
             responsive: true
         }
     }
+    // generates dataset for each chosen country and its options
     countryData.map((countryDataPoint) => {
         const randColor = '#'+Math.floor(Math.random()*16777215).toString(16); //generates a random color!
         const countryDataset = {
@@ -137,6 +141,8 @@ const generateDataTable = (countryData) => {
         });
     });
 }
+
+// parses the data table of selected countries on the search page
 const getOptionsFromSelectedCountryList = () => {
     const rows = selectedCountriesTable.getRows();
     const countryOptions = {};
@@ -162,6 +168,8 @@ const getOptionsFromSelectedCountryList = () => {
     segmentedData = segmentDataBasedOnOptions(countryOptions);
     return segmentedData;
 }
+
+// mutates the original data retrived from the api according to the user's choices
 const segmentDataBasedOnOptions = (countryOptions) => {
     const countryNames = Object.keys(countryOptions);
     const segmentedArray = countryNames.map((country) => {
@@ -182,6 +190,8 @@ const segmentDataBasedOnOptions = (countryOptions) => {
 const showCountriesDataTable = () => {
     selectedCountriesListEl.style.display = "block";
 }
+
+// adds the chosen country from the datalist to the countries data table
 const addCountryToList = () => {
     const selectedCountriesListTableBody = document.querySelector('#country-list-content');
     const selectedCountry = countryInputEl.value;
@@ -287,6 +297,7 @@ const addCountryToList = () => {
     getOptionsFromSelectedCountryList();
 }
       
+// makes the icon buttons on the top bar work
 topBarLinks.forEach((item) => {
     item.addEventListener('click', () => {
         hideViews();

@@ -7,6 +7,6 @@ body {
 main {
     margin-left: 8px;
 }
-#list-view, #chart-view, .selected-countries-list{
+#list-view, #chart-view, .selected-countries-list, .data-view-opts-btns{
     display: none;
 }
